@@ -1,0 +1,15 @@
+# @title Command Lines for MapReduce using Python
+
+#Remove existing output directory if it exists
+hadoop fs -rm -r /user/hadoop/pc
+
+#Using streaming utility to run MapReduce job
+mapred streaming\
+ -files assgmap.py,assgred.py\
+  -input /user/hadoop/amazon_reviews_us_Video_Games_v1_00.tsv\
+   -output /user/hadoop/pc\
+    -mapper "python3 assgamap.py"\
+     -reducer "python3 assgred.py"
+
+#Display the first 30 lines
+hadoop fs -cat /user/hadoop/pc/part-00000 | head -30

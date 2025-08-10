@@ -1,0 +1,34 @@
+# @title Python Reducer Script
+
+#!/usr/bin/env python3
+import sys
+import heapq
+
+# Function to get the top N words with the highest counts
+def top_n_words(counts, n):
+    return heapq.nlargest(n, counts.items(), key=lambda x: x[1])
+
+word_counts = {}
+
+# Process each line of input
+for line in sys.stdin:
+    line = line.strip()  # Remove leading and trailing whitespace
+    word, count = line.split('\t', 1)  # Split the line into word and count
+
+    try:
+        count = int(count)  # Convert count to an integer
+    except ValueError:
+        continue  # Skip the line if count is not a valid integer
+
+    # Aggregate word counts
+    if word in word_counts:
+        word_counts[word] += count
+    else:
+        word_counts[word] = count
+
+# Get the top 30 words by count
+top_words = top_n_words(word_counts, 30)
+
+# Output the top 30 words and their counts
+for word, count in top_words:
+    print(f'{word}\t{count}')  # Print word and count separated by a tab
